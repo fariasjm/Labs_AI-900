@@ -1,111 +1,43 @@
 # Labs_AI-900
 
-# Trabalhando com Machine Learning na Prática no Azure ML
+# Reconhecimento Facial e transformação de imagens em Dados no Azure ML
 
-## Passo a passo para criar um jobs ML automatizado no Azure Machine Learning
+## Analisar imagens no Vision Studio
 
-1. No Azure Machine Learning studio, visualize a página Automated ML (em Authoring)
-2. Crie um novo trabalho de ML automatizado com as seguintes configurações:
+### Criar um recurso dos serviços de IA do Azure
 
-Configurações básicas:
-- Nome do trabalho: mslearn-bike-automl
-- Novo nome do experimento: mslearn-bike-rental
-- Descrição: Aprendizado de máquina automatizado para previsão de aluguel de bicicletas
-- Tags: nenhum
+A análise de imagem da Visão de IA do Azure é um recurso coginitivo dos serviços do serviço de IA do Azure. 
 
-Tipo de tarefa e dados:
-- Selecione o tipo de tarefa: Regressão
-- Selecione o conjunto de dados: Crie um novo conjunto de dados com as seguintes configurações:
+1. Crie um recurso dos serviços de IA do Azure em sua assinatura do Azure
+2. Em outra guia do navegador, abra o portal do Azure em https://portal.azure.com, entrando com a conta Microsoft associada à sua assinatura do Azure
+3. Clique no botão ＋Criar um recurso e pesquise por serviços de IA do Azure
+4. Selecione criar um plano dos serviços de IA do Azure. 
 
-Tipo de dados:
-- Nome: bike-rentals
-- Descrição: Dados históricos de aluguel de bicicletas
-- Tipo: Tabular
+### Conectar seu recurso do Serviço de IA do Azure ao Vision Studio
 
-Fonte de dados:
-- Selecione arquivo local
-- Faça o download do arquivo bike-data.zip na URL https://aka.ms/bike-rentals
-- Extraia os arquivos numa pasta local
-- Selecione Carregar Pasta, apontando para a pasta com os arquivos: daily-bike-share.csv e MLTable
+Conecte o recurso do Serviço de IA do Azure que você provisionou acima ao Vision Studio.
 
-Configurações da tarefa:
-- Tipo de tarefa: Regressão
-- Conjunto de dados: bike-rentals
-- Coluna alvo: Aluguéis (inteiro)
-- Configurações adicionais:
-  - Métrica primária: Erro médio quadrático normalizado
-  - Explicar o melhor modelo: Não selecionado
-  - Habilitar empilhamento de conjunto : Não selecionado
-  - Usar todos os modelos suportados: Não selecionado (Você vai trabalhar apenas com alguns algoritmos específicos)
-  - Modelos permitidos: Selecione apenas RandomForest e LightGBM
+1. Em outra guia do navegador, navegue até Vision Studio
+2. Entre com sua conta e verifique se você está usando o mesmo diretório que aquele em que criou o recurso dos Serviços de IA do Azure
+3. Na página inicial do Vision Studio, selecione Exibir todos os recursos
+4. Na página Selecionar um recurso para trabalhar, clique no recurso criado. Marque a caixa do nome do recurso e selecione Selecionar como recurso padrão
+5. Feche a página de configurações selecionando o “x” na parte superior direita da tela.
 
-Limites: (Expanda esta seção)
-- Máximo de tentativas: 3
-- Máximo de tentativas simultâneas: 3
-- Máximo de nós: 3
-- Limiar de pontuação métrica: 0.085
-- Tempo limite: 15
-- Tempo limite de iteração: 15
-- Ativar término antecipado: Selecionado
+### Análise de imagem no AI Vison Service
 
-Validação e teste:
-- Tipo de validação: Divisão de treinamento-validação
-- Porcentagem de dados de validação: 10
-- Conjunto de dados de teste: Nenhum
+1. Na página inicial do  Vision Studio, selecione a guia Análise de imagem e selecione um recursos de análise
 
-Computação:
-- Selecione o tipo de computação: Sem servidor
-- Tipo de máquina virtual: CPU
-- Nível da máquina virtual: Dedicado
-- Tamanho da máquina virtual: Standard_DS3_V2
-- Número de instâncias: 1
+![image](https://github.com/user-attachments/assets/9a7a7b07-68a8-4c4c-8b89-2d201fe19944)
 
-3. Envie o trabalho de treinamento
-4. Inicia automaticamente.
+### Extrair texto de imagens no Vision Studio
 
-## Implantar e testar o modelo
+1. Em um navegador da Web, navegue até o Vision Studio em https://portal.vision.cognitive.azure.com
+2. Selecione Reconhecimento óptico de caracteres e o recurso Extrair texto de imagens
+3. Selecione Procurar um arquivo e navegue até a pasta no computador onde estão as imagens. Selecione Abrir
+4. Em Atributos detectados, os textos encontrados na imagem é organizado em uma estrutura hierárquica de regiões, linhas e palavras.
 
-1. Na guia Modelo selecione Implantar e use a opção ponto de extremidade em tempo real para implantar o modelo com as seguintes configurações:
-- Máquina virtual: Standard_DS3_v2
-- Contagem de instâncias: 3
-- Ponto de extremidade: Novo
-- Nome do ponto de extremidade: Deixe o padrão
-- Nome da implantação: Manter o padrão
-- Coleta de dados de inferência: Disabled
-- Empacotar modelo: Disabled
+![image](https://github.com/user-attachments/assets/2e6767a8-4d6e-4408-bab5-56a088ad8158)
 
-2. Aguarde a implantação (pode levar alguns minutos)
-3. Aguarde o status de Implantação mudar para Concluído.
-
-4. Agora você pode testar o serviço implantado
-5. Em Estúdio do Azure Machine Learning, no menu à esquerda, selecione Pontos de Extremidade e abra o ponto de extremidade em tempo real
-6. Na página do ponto de extremidade em tempo real de previsão de aluguel, exiba a guia Teste
-7. No painel Dados de entrada para testar o ponto de extremidade, substitua o modelo JSON pelos seguintes dados de entrada:
-
- {
-   "input_data": {
-     "columns": [
-         {
-             "day": 1,
-             "mnth": 1,   
-             "year": 2022,
-             "season": 2,
-             "holiday": 0,
-             "weekday": 1,
-             "workingday": 1,
-             "weathersit": 2, 
-             "temp": 0.3, 
-             "atemp": 0.3,
-             "hum": 0.3,
-             "windspeed": 0.3 
-         }
-     ],
-     "index": [],
-     "data": []
-   }
- }
-
-8. Clique no botão Testar.
 
 
 
