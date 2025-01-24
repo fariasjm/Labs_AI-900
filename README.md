@@ -63,3 +63,50 @@ Computação:
 3. Envie o trabalho de treinamento
 4. Inicia automaticamente.
 
+## Implantar e testar o modelo
+
+1. Na guia Modelo selecione Implantar e use a opção ponto de extremidade em tempo real para implantar o modelo com as seguintes configurações:
+- Máquina virtual: Standard_DS3_v2
+- Contagem de instâncias: 3
+- Ponto de extremidade: Novo
+- Nome do ponto de extremidade: Deixe o padrão
+- Nome da implantação: Manter o padrão
+- Coleta de dados de inferência: Disabled
+- Empacotar modelo: Disabled
+
+2. Aguarde a implantação (pode levar alguns minutos)
+3. Aguarde o status de Implantação mudar para Concluído.
+
+4. Agora você pode testar o serviço implantado
+5. Em Estúdio do Azure Machine Learning, no menu à esquerda, selecione Pontos de Extremidade e abra o ponto de extremidade em tempo real
+6. Na página do ponto de extremidade em tempo real de previsão de aluguel, exiba a guia Teste
+7. No painel Dados de entrada para testar o ponto de extremidade, substitua o modelo JSON pelos seguintes dados de entrada:
+
+ {
+   "input_data": {
+     "columns": [
+         {
+             "day": 1,
+             "mnth": 1,   
+             "year": 2022,
+             "season": 2,
+             "holiday": 0,
+             "weekday": 1,
+             "workingday": 1,
+             "weathersit": 2, 
+             "temp": 0.3, 
+             "atemp": 0.3,
+             "hum": 0.3,
+             "windspeed": 0.3 
+         }
+     ],
+     "index": [],
+     "data": []
+   }
+ }
+
+8. Clique no botão Testar.
+
+
+
+
